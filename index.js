@@ -18,13 +18,27 @@ const gameData = {
 
 function getImage(url) {
 	return new Promise((resolve, reject) => {
+		const hash = url.replace(/\//g, '-');
+		const filepath = `cache/${hash}`;
+		function returnFile() {
+			const res = fs.readFileSync(filepath, 'utf-8');
+			resolve(res);
+		}
+		if (fs.existsSync(filepath)) {
+			console.log(`[image] using cached copy of ${url}: ${filepath}`);
+			returnFile();
+			return;
+		}
+		console.log(`[image] downloading from ${url}`);
 		request.get(url, (err, resp, body) => {
 			sharp(Buffer.from(body))
 			.resize(256, 256, {
 				fit: 'inside'
 			}).toBuffer().then((data) => {
-				resolve('data:' + resp.headers['content-type'] +
+				fs.writeFileSync(filepath,
+					'data:' + resp.headers['content-type'] +
 					';base64,' + data.toString('base64'));
+				returnFile();
 			});
 		});
 	});
@@ -43,18 +57,27 @@ function getLocalImage(url) {
 
 function getAudio(url, start, duration) {
 	return new Promise((resolve, reject) => {
+		const hash = start.toString() + '-' + duration.toString() + '-' +
+			url.replace(/\//g, '-');
+		const filepath = `cache/${hash}.mp3`;
+		function returnFile() {
+			const res = 'data:audio/mp3;base64,' +
+				Buffer.from(fs.readFileSync(filepath))
+				.toString('base64');
+			resolve(res);
+		}
+		if (fs.existsSync(filepath)) {
+			console.log(`[audio] using cached copy of ${url}: ${filepath}`);
+			returnFile();
+			return;
+		}
 		console.log(`[audio] downloading from ${url}`);
 		new ffmpeg(ytdl(url))
 		.setStartTime(start).setDuration(duration)
 		.on('end', () => {
-			const res = 'data:audio/mp3;base64,' +
-				Buffer.from(fs.readFileSync('temp.mp3'))
-				.toString('base64');
-			fs.unlink('temp.mp3', () => {
-				resolve(res);
-			})
+			returnFile();
 		})
-		.saveToFile('temp.mp3');
+		.saveToFile(filepath);
 	});
 }
 

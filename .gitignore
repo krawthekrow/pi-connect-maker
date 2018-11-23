@@ -1,5 +1,6 @@
 /package-lock.json
 /images/
+/cache/
 /in.txt
 /out.json
 /node_modules/
