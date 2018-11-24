@@ -1,5 +1,11 @@
 !connections
 
+## Example of a music question
+# For example, the first clue downloads 40 seconds (by default, since
+# rounds last for 40 seconds) of music from
+# https://www.youtube.com/watch?v=CDdvReNKKuk , starting 51 seconds in.
+# Upon reveal, the tile would say "Amazing Grace".
+
 - Songs using the pentatonic scale
 https://www.youtube.com/watch?v=CDdvReNKKuk 51
 Amazing Grace
@@ -28,7 +34,7 @@ schin19
 
 - Lounges in MIT
 50-2xx
-4-3xx
+8-3xx
 4-1xx
 36-1xx
 
@@ -37,6 +43,11 @@ Earl, NC
 serial
 issue
 risk
+
+## Example of a picture question
+# For example, the first clue downloads the image from
+# https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
+# Upon reveal, the tile would say "tar".
 
 - Commands that you type into a terminal
 https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
@@ -51,10 +62,10 @@ cd
 !sequences
 
 - Chord progression in Pachelbel's Canon in D
-15
-63
-41
-45
+1...5
+6...3
+4...1
+4...5
 
 - Ubuntu version suffixes
 https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Bos_grunniens_at_Letdar_on_Annapurna_Circuit.jpg/1280px-Bos_grunniens_at_Letdar_on_Annapurna_Circuit.jpg
@@ -66,6 +77,19 @@ https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mamm
 http://web.mit.edu/graphicidentity/images/examples/tim-the-beaver-do-1.png
 (Bionic) Beaver
 
+## The last clue for this puzzle was originally
+#
+# images/first-east.png
+# First East
+#
+# which provides an example of a picture clue where the image is retrieved
+# from the local filesystem. This requires you to have an image called
+# "first-east.png" in the images directory in the project root. Since you
+# probably don't have this image on your computer, I removed the image URL.
+#
+# Now, this just provides an example of how you can mix and match
+# different kinds of clues.
+
 - Floors on the east parallel
 https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Brenneke_Slug-1.jpg/446px-Brenneke_Slug-1.jpg
 Slug(Fest)
@@ -73,18 +97,13 @@ http://whisperingpines.fatcow.com/content/wp-content/uploads/2009/12/pettingzoo1
 (Third East) Travelling Animial Zoo
 https://lumiere-a.akamaihd.net/v1/images/open-uri20150422-20810-rh2s1r_7ed9f532.jpeg
 (Beauty and the) Beast
-images/first-east.png
 First East
 
 - Last four days of creation
-https://static.gamespot.com/uploads/screen_kubrick/1534/15343359/3158933-1223260248-pokem.jpg
-Pokemon Sun and Moon
-https://storybird.s3.amazonaws.com/artwork/JuliusTan/square/bird-and-fish.jpeg
+Sun and moon
 Birds and fish
-https://cdn1.thr.com/sites/default/files/imagecache/landscape_928x523/2016/02/073423-_h_2016.jpg
-Man and cattle
-http://images.clipartpanda.com/quarter-rest-clip-art-e61e509d9442ab0aa4ffa0d67b8e1282.jpg
-Musical rest
+Man and animals
+Rest
 
 - Brightest stars as seen from the Earth
 Alpha Centauri
@@ -153,6 +172,10 @@ super
 crypt
 
 !vowels
+
+# The vowels are removed and the spaces inserted randomly at the point
+# when you upload the game file to the app. Unfortunately, there isn't a
+# way to choose your own spacing beforehand.
 
 - Revolutionary innovations in technology
 Facebook

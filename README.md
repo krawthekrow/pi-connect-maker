@@ -6,7 +6,7 @@ Documentation
 You will need Node to run this script. Quick start:
 
 ```
-git clone git@github.com:krawthekrow/pi-connect.git
+git clone https://github.com/krawthekrow/pi-connect-maker.git
 cd pi-connect
 npm install
 cp in.txt.example in.txt
