@@ -1,4 +1,4 @@
-Helper script to construct a game file for [pi-connect](https://krawthekrow.github.io/pi-connect/).
+Helper script to construct a game file for [pi-connect](https://krawthekrow.github.io/pi-connect/). Read the README in the [pi-connect repository](https://github.com/krawthekrow/pi-connect) for documentation on how to run a game. This README only explains how to use the game creator.
 
 Documentation
 =============
@@ -41,6 +41,8 @@ What a line starts with determines the kind of clue it is.
 - If it starts with `https://` or `http://` and isn't a music clue, then it is a picture clue, and the image will be downloaded from the URL.
 - If it starts with `images/` (for example, `images/clue.png`), then it is a picture clue. The image will be taken from your own computer, in the `images` folder (you'll have to create one yourself with `mkdir images` in the same directory as `index.js`). It must be a PNG because I've had no reason to support multiple formats.
 - Otherwise, it is a text clue, and the content of the line will be the clue itself.
+
+The four clues in a puzzle do not have to be of the same type.
 
 Walls
 -----
