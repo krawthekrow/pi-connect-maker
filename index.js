@@ -6,7 +6,7 @@ const stream = require('stream');
 const request = require('request').defaults({encoding: null});
 const sharp = require('sharp');
 
-// For personal use
+// For testing
 const WRITE_DIRECT = false;
 
 const gameData = {
@@ -100,10 +100,10 @@ async function parseFile() {
 					index == 5) {
 				stage = 'sequences';
 			}
-			else if (stage == 'sequences' && cmd == 'wall' && index == 5) {
-				stage = 'wall';
+			else if (stage == 'sequences' && cmd == 'walls' && index == 5) {
+				stage = 'walls';
 			}
-			else if (stage == 'wall' && cmd == 'vowels' && index == 7) {
+			else if (stage == 'walls' && cmd == 'vowels' && index == 7) {
 				stage = 'vowels';
 			}
 			else
@@ -124,7 +124,7 @@ async function parseFile() {
 					solution: desc,
 					data: []
 				});
-			else if (stage == 'wall') {
+			else if (stage == 'walls') {
 				if (index == -1 || index == 3)
 					gameData.walls.push({
 						groups: [{
@@ -190,7 +190,7 @@ async function parseFile() {
 				substage = -1;
 			}
 		}
-		else if (stage == 'wall') {
+		else if (stage == 'walls') {
 			subindex++;
 			gameData.walls[Math.floor(index / 4)].groups[index % 4].data.push(
 				src[i]
