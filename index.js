@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const ytdl = require('ytdl-core');
 const ffmpeg = require('fluent-ffmpeg');
 const toArray = require('stream-to-array');
@@ -16,10 +17,14 @@ const gameData = {
 	vowels: []
 };
 
+const cacheDir = './cache';
+if (!fs.existsSync(cacheDir))
+	fs.mkdirSync(cacheDir);
+
 function getImage(url) {
 	return new Promise((resolve, reject) => {
 		const hash = url.replace(/\//g, '-');
-		const filepath = `cache/${hash}`;
+		const filepath = path.join(cacheDir, hash);
 		function returnFile() {
 			const res = fs.readFileSync(filepath, 'utf-8');
 			resolve(res);
@@ -59,7 +64,7 @@ function getAudio(url, start, duration) {
 	return new Promise((resolve, reject) => {
 		const hash = start.toString() + '-' + duration.toString() + '-' +
 			url.replace(/\//g, '-');
-		const filepath = `cache/${hash}.mp3`;
+		const filepath = path.join(cacheDir, `${hash}.mp3`);
 		function returnFile() {
 			const res = 'data:audio/mp3;base64,' +
 				Buffer.from(fs.readFileSync(filepath))

@@ -17,7 +17,9 @@ cp in.txt.example in.txt
 node index.js # call this to generate the JSON output
 ```
 
-The game JSON will be saved to `out.json`.
+If any of the clues require images of your own creation (as opposed to ones downloaded from online), do `mkdir images` and save the images in PNG format in the `images` directory.
+
+The game JSON will be written to `out.json`.
 
 This script works by reading a specification file called `in.txt` in the same directory as `index.js`. It uses a non-standard format, but is designed to hopefully be intuitive. This documentation is intended only for clarity, and you can probably get a good picture much faster by looking at the example specification provided in `in.txt.example`.
 
