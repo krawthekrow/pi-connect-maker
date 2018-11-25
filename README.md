@@ -3,7 +3,11 @@ Helper script to construct a game file for [pi-connect](https://krawthekrow.gith
 Documentation
 =============
 
-You will need Node to run this script. Quick start:
+You will need the latest stable version of Node to run this script.
+
+__Important note__: pi-connect-maker uses async/await, which is a very new language feature. The version of Node provided by your package manager is probably outdated and thus would not support this feature. The easiest way to get the latest stable version of Node is by following the instructions [here](https://nodejs.org/en/download/package-manager/).
+
+Quick start:
 
 ```
 git clone https://github.com/krawthekrow/pi-connect-maker.git
