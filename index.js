@@ -36,6 +36,10 @@ function getImage(url) {
 		}
 		console.log(`[image] downloading from ${url}`);
 		request.get(url, (err, resp, body) => {
+			if (err) {
+				reject(`failed to download image from ${url} with error "${err}"`);
+				return;
+			}
 			sharp(Buffer.from(body))
 			.resize(256, 256, {
 				fit: 'inside'
@@ -51,7 +55,14 @@ function getImage(url) {
 
 function getLocalImage(url) {
 	return new Promise((resolve, reject) => {
-		sharp(Buffer.from(fs.readFileSync(url)))
+		let data;
+		try {
+			data = fs.readFileSync(url);
+		} catch (err) {
+			reject(`failed to read image from ${url} with error "${err}"`);
+			return;
+		}
+		sharp(Buffer.from(data))
 		.resize(256, 256, {
 			fit: 'inside'
 		}).toBuffer().then((data) => {
@@ -91,41 +102,63 @@ async function parseFile() {
 	let stage = 'start';
 	let index = -1, subindex = 3;
 	let substage = -1;
-	for (let i = 0; i < src.length; i++) {
+	let i = 0;
+	function throwError(err) {
+		throw new Error(`Error at in.txt line ${i+1}: ${err}`);
+	}
+	function checkEndPuzzle() {
+		if (substage != -1)
+			throwError(`incomplete clue, did you forget to provide a solution?`);
+		if (subindex != 3)
+			throwError(`incorrect number of clues in previous puzzle, expected 4, got ${subindex + 1}`);
+	}
+	for (; i < src.length; i++) {
 		if (src[i].startsWith('#'))
 			continue;
 		if (src[i].trim() == '')
 			continue;
 		if (src[i].startsWith('!')) {
 			const cmd = src[i].slice(1).trim();
-			if (stage == 'start' && cmd == 'connections' && index == -1) {
+			checkEndPuzzle();
+			if (stage == 'start') {
+				if (cmd != 'connections')
+					throwError(`connections stage should come first`);
+				if (index != -1)
+					throwError(`wrong puzzle index`);
 				stage = 'connections';
-			}
-			else if (stage == 'connections' && cmd == 'sequences' &&
-					index == 5) {
+			} else if (stage == 'connections') {
+				if (cmd != 'sequences')
+					throwError(`connections stage should be followed by sequences`);
+				if (index != 5)
+					throwError(`too few puzzles in connections stage, expected 6, got ${index+1}`);
 				stage = 'sequences';
-			}
-			else if (stage == 'sequences' && cmd == 'walls' && index == 5) {
+			} else if (stage == 'sequences') {
+				if (cmd != 'walls')
+					throwError(`sequences stage should be followed by walls`);
+				if (index != 5)
+					throwError(`too few puzzles in sequences stage, expected 6, got ${index+1}`);
 				stage = 'walls';
-			}
-			else if (stage == 'walls' && cmd == 'vowels' && index == 7) {
+			} else if (stage == 'walls') {
+				if (cmd != 'vowels')
+					throwError(`walls stage should be followed by vowels`);
+				if (index != 7)
+					throwError(`too few groups in the walls stage, expected 8, got ${index+1}`);
 				stage = 'vowels';
-			}
+			} else if (stage == 'vowels')
+				throwError(`nothing should come after vowels stage`);
 			else
-				throw new Error(`unrecognized command ${cmd} after stage ${stage} at line ${i}`);
+				throwError(`unrecognized stage ${stage}`);
 			subindex = 3;
 			index = -1;
 			continue;
 		}
+		if (stage == 'start')
+			throwError(`file should start with "!connections" to denote start of connections section`);
 		if (src[i].startsWith('-')) {
 			const desc = src[i].slice(1).trim();
-			if (stage == 'connections' && subindex == 3 && substage == -1)
-				gameData.connections.push({
-					solution: desc,
-					data: []
-				});
-			else if (stage == 'sequences' && subindex == 3 && substage == -1)
-				gameData.sequences.push({
+			checkEndPuzzle();
+			if (stage == 'connections' || stage == 'sequences')
+				gameData[stage].push({
 					solution: desc,
 					data: []
 				});
@@ -142,18 +175,24 @@ async function parseFile() {
 						solution: desc,
 						data: []
 					});
-			}
-			else if (stage == 'vowels' && subindex == 3 && substage == -1)
+			} else if (stage == 'vowels') {
 				gameData.vowels.push({
 					desc: desc,
 					data: []
 				});
-			else
-				throw new Error(`unexpected item at stage ${stage}, subindex ${subindex}, substage ${substage} at line ${i}`);
+			} else
+				throwError(`unexpected puzzle at stage ${stage}, subindex ${subindex}, substage ${substage}`);
 			subindex = -1;
 			index++;
+			if ((stage == 'connections' || stage == 'sequences')
+					&& index >= 6)
+				throwError(`too many puzzles in ${stage} stage, expected 6`);
+			if (stage == 'walls' && index >= 8)
+				throwError(`too many groups in walls stage, expected 8`);
 			continue;
 		}
+		if (index == -1)
+			throwError(`puzzle should start with a solution or category (line beginning with a dash)`);
 		if (stage == 'connections' || stage == 'sequences') {
 			if (substage == -1) {
 				subindex++;
@@ -164,21 +203,36 @@ async function parseFile() {
 						(parts.length >= 3) ? parseInt(parts[2]) : 40;
 					const start =
 						(parts.length >= 2) ? parseInt(parts[1]) : 0;
-					const url = await getAudio(parts[0], start, duration);
+					let url;
+					try {
+						url = await getAudio(parts[0], start, duration);
+					} catch (err) {
+						throwError(err);
+					}
 					gameData[stage][index].data.push({
 						audio: url
 					});
 				}
 				else if (src[i].startsWith('https://') || src[i].startsWith('http://')) {
 					substage = 0;
-					const url = await getImage(src[i].trim());
+					let url;
+					try {
+						url = await getImage(src[i].trim());
+					} catch (err) {
+						throwError(err);
+					}
 					gameData[stage][index].data.push({
 						image: url
 					});
 				}
 				else if (src[i].startsWith('images/')) {
 					substage = 0;
-					const url = await getLocalImage(src[i].trim());
+					let url;
+					try {
+						url = await getLocalImage(src[i].trim());
+					} catch (err) {
+						throwError(err);
+					}
 					gameData[stage][index].data.push({
 						image: url
 					});
@@ -191,6 +245,10 @@ async function parseFile() {
 				}
 			}
 			else {
+				if (src[i].startsWith('https://') ||
+						src[i].startsWith('http://') ||
+						src[i].startsWith('images/'))
+					throwError(`incomplete clue, did you forget to provide a solution?`);
 				gameData[stage][index].data[subindex].text = src[i].trim();
 				substage = -1;
 			}
@@ -208,11 +266,15 @@ async function parseFile() {
 			);
 		}
 		else
-			throw new Error(`unknown stage ${stage} at line ${i}`);
+			throwError(`unknown stage ${stage}`);
 	}
+	checkEndPuzzle();
 	const jsonData = JSON.stringify(gameData);
 	if (WRITE_DIRECT)
 		fs.writeFileSync('../pi-connect/src/js/test.js', 'export default ' + jsonData);
 	fs.writeFileSync('out.json', jsonData);
 }
-parseFile();
+parseFile().catch((err) => {
+	console.error(err);
+	console.error('\u001b[1m\u001b[31m' + err.message + '\x1b[0m');
+});
