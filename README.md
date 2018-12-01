@@ -11,7 +11,7 @@ Quick start:
 
 ```
 git clone https://github.com/krawthekrow/pi-connect-maker.git
-cd pi-connect
+cd pi-connect-maker
 npm install
 cp in.txt.example in.txt
 node index.js # call this to generate the JSON output
