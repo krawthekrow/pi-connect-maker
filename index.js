@@ -97,6 +97,31 @@ function getAudio(url, start, duration) {
 	});
 }
 
+function getLocalAudio(url, start, duration) {
+	return new Promise((resolve, reject) => {
+		const hash = start.toString() + '-' + duration.toString() + '-' +
+			url.replace(/\//g, '-');
+		const filepath = path.join(cacheDir, `${hash}.mp3`);
+		function returnFile() {
+			const res = 'data:audio/mp3;base64,' +
+				Buffer.from(fs.readFileSync(filepath))
+				.toString('base64');
+			resolve(res);
+		}
+		console.log(`[audio] processing ${url}`);
+		new ffmpeg(url)
+		.setStartTime(start).setDuration(duration)
+		.on('end', () => {
+			returnFile();
+		})
+		.saveToFile(filepath);
+	});
+}
+
+function parseTextClue(line) {
+	return line.startsWith('`') ? line.slice(1) : line.trim();
+}
+
 async function parseFile() {
 	src = fs.readFileSync('in.txt', 'utf-8').split('\n');
 	let stage = 'start';
@@ -196,16 +221,25 @@ async function parseFile() {
 		if (stage == 'connections' || stage == 'sequences') {
 			if (substage == -1) {
 				subindex++;
-				if (src[i].startsWith('https://www.youtube.com/')) {
+				const isRemoteAudio =
+					src[i].startsWith('https://www.youtube.com/');
+				const isLocalAudio = src[i].startsWith('audio/');
+				if (isRemoteAudio || isLocalAudio) {
 					substage = 0;
 					const parts = src[i].trim().split(' ');
 					const duration =
 						(parts.length >= 3) ? parseInt(parts[2]) : 40;
 					const start =
 						(parts.length >= 2) ? parseInt(parts[1]) : 0;
+					if (isNaN(start))
+						throwError(`audio start offset should be an integer`);
+					if (isNaN(duration))
+						throwError(`audio duration should be an integer`);
 					let url;
 					try {
-						url = await getAudio(parts[0], start, duration);
+						url = await (isRemoteAudio
+							? getAudio(parts[0], start, duration)
+							: getLocalAudio(parts[0], start, duration));
 					} catch (err) {
 						throwError(err);
 					}
@@ -239,7 +273,7 @@ async function parseFile() {
 				}
 				else {
 					gameData[stage][index].data.push({
-						text: src[i].trim()
+						text: parseTextClue(src[i])
 					});
 					substage = -1;
 				}
@@ -247,9 +281,11 @@ async function parseFile() {
 			else {
 				if (src[i].startsWith('https://') ||
 						src[i].startsWith('http://') ||
-						src[i].startsWith('images/'))
+						src[i].startsWith('images/') ||
+						src[i].startsWith('audio/'))
 					throwError(`incomplete clue, did you forget to provide a solution?`);
-				gameData[stage][index].data[subindex].text = src[i].trim();
+				gameData[stage][index].data[subindex].text =
+					parseTextClue(src[i]);
 				substage = -1;
 			}
 		}

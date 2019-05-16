@@ -46,9 +46,11 @@ Connections and sequences share the same format: a list of exactly four clues. T
 What a line starts with determines the kind of clue it is.
 
 - If it starts with `https://www.youtube.com/`, then it is a music clue. An audio clip will be downloaded from the URL specified. Optionally, you can place one or two integers after the URL, separated by spaces, indicating the start time and duration (in that order) in seconds. In game, if the players listen to the music for more than the specified duration, it will just loop.
+- If it starts with `audio/` (for example, `audio/clue.mp3`), then it is a music clue. The audio will be taken from your own computer, in the `audio` folder (you'll have to create one yourself with `mkdir audio` in the same directory as `index.js`). Any common format should be supported, but when in doubt use MP3.
 - If it starts with `https://` or `http://` and isn't a music clue, then it is a picture clue, and the image will be downloaded from the URL.
 - If it starts with `images/` (for example, `images/clue.png`), then it is a picture clue. The image will be taken from your own computer, in the `images` folder (you'll have to create one yourself with `mkdir images` in the same directory as `index.js`). It must be a PNG because I've had no reason to support multiple formats.
 - Otherwise, it is a text clue, and the content of the line will be the clue itself.
+- Backtick escapes -- if a line starts with `` ` ``, it will be treated as a raw string containing everything after the backtick, including whitespace.
 
 The four clues in a puzzle do not have to be of the same type.
 
