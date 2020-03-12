@@ -122,6 +122,61 @@ function parseTextClue(line) {
 	return line.startsWith('`') ? line.slice(1) : line.trim();
 }
 
+async function parseMultimediaClue(line) {
+	const isRemoteAudio =
+		line.startsWith('https://www.youtube.com/');
+	const isLocalAudio = line.startsWith('audio/');
+	if (isRemoteAudio || isLocalAudio) {
+		const parts = line.trim().split(' ');
+		const duration =
+			(parts.length >= 3) ? parseInt(parts[2]) : 40;
+		const start =
+			(parts.length >= 2) ? parseInt(parts[1]) : 0;
+		if (isNaN(start))
+			throwError(`audio start offset should be an integer`);
+		if (isNaN(duration))
+			throwError(`audio duration should be an integer`);
+		let url;
+		try {
+			url = await (isRemoteAudio
+				? getAudio(parts[0], start, duration)
+				: getLocalAudio(parts[0], start, duration));
+		} catch (err) {
+			throwError(err);
+		}
+		return {
+			audio: url
+		};
+	}
+	else if (line.startsWith('https://') || line.startsWith('http://')) {
+		let url;
+		try {
+			url = await getImage(line.trim());
+		} catch (err) {
+			throwError(err);
+		}
+		return {
+			image: url
+		};
+	}
+	else if (line.startsWith('images/')) {
+		let url;
+		try {
+			url = await getLocalImage(line.trim());
+		} catch (err) {
+			throwError(err);
+		}
+		return {
+			image: url
+		};
+	}
+	else {
+		return {
+			text: parseTextClue(line)
+		};
+	}
+}
+
 async function parseFile() {
 	src = fs.readFileSync('in.txt', 'utf-8').split('\n');
 	let stage = 'start';
@@ -221,62 +276,9 @@ async function parseFile() {
 		if (stage == 'connections' || stage == 'sequences') {
 			if (substage == -1) {
 				subindex++;
-				const isRemoteAudio =
-					src[i].startsWith('https://www.youtube.com/');
-				const isLocalAudio = src[i].startsWith('audio/');
-				if (isRemoteAudio || isLocalAudio) {
-					substage = 0;
-					const parts = src[i].trim().split(' ');
-					const duration =
-						(parts.length >= 3) ? parseInt(parts[2]) : 40;
-					const start =
-						(parts.length >= 2) ? parseInt(parts[1]) : 0;
-					if (isNaN(start))
-						throwError(`audio start offset should be an integer`);
-					if (isNaN(duration))
-						throwError(`audio duration should be an integer`);
-					let url;
-					try {
-						url = await (isRemoteAudio
-							? getAudio(parts[0], start, duration)
-							: getLocalAudio(parts[0], start, duration));
-					} catch (err) {
-						throwError(err);
-					}
-					gameData[stage][index].data.push({
-						audio: url
-					});
-				}
-				else if (src[i].startsWith('https://') || src[i].startsWith('http://')) {
-					substage = 0;
-					let url;
-					try {
-						url = await getImage(src[i].trim());
-					} catch (err) {
-						throwError(err);
-					}
-					gameData[stage][index].data.push({
-						image: url
-					});
-				}
-				else if (src[i].startsWith('images/')) {
-					substage = 0;
-					let url;
-					try {
-						url = await getLocalImage(src[i].trim());
-					} catch (err) {
-						throwError(err);
-					}
-					gameData[stage][index].data.push({
-						image: url
-					});
-				}
-				else {
-					gameData[stage][index].data.push({
-						text: parseTextClue(src[i])
-					});
-					substage = -1;
-				}
+				const clue = await parseMultimediaClue(src[i]);
+				gameData[stage][index].data.push(clue);
+				substage = ('text' in clue) ? -1 : 0;
 			}
 			else {
 				if (src[i].startsWith('https://') ||
@@ -291,8 +293,11 @@ async function parseFile() {
 		}
 		else if (stage == 'walls') {
 			subindex++;
+			const clue = await parseMultimediaClue(src[i]);
+			if ('audio' in clue)
+				throwError(`audio not supported in walls`);
 			gameData.walls[Math.floor(index / 4)].groups[index % 4].data.push(
-				src[i]
+				clue
 			);
 		}
 		else if (stage == 'vowels') {
