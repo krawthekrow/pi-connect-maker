@@ -5,9 +5,7 @@ Documentation
 
 You will need the latest stable version of Node and ffmpeg to run this script.
 
-__Important note__: pi-connect-maker uses async/await, which is a very new language feature. The version of Node provided by your package manager is probably outdated and thus would not support this feature. The easiest way to get the latest stable version of Node is by following the instructions [here](https://nodejs.org/en/download/package-manager/).
-
-__For non-programmers on Windows__: You'll need to install the latest (probably 64-bit) versions of Git, Python 2, Node and ffmpeg, and you'll have to add Python and ffmpeg to your path. To check that you have everything working, run the commands below, but with `copy in.txt.example in.txt` instead of `cp in.txt.example in.txt`
+__For non-programmers on Windows__: You'll need to install the latest (probably 64-bit) versions of Git, Python, Node and ffmpeg, and you'll have to add Python and ffmpeg to your path. To check that you have everything working, run the commands below, but with `copy in.txt.example in.txt` instead of `cp in.txt.example in.txt`
 
 Quick start (for Linux):
 
@@ -38,7 +36,7 @@ The specification file contains four main sections, delimited by the following l
 
 Within each section, a puzzle is delimited by a line beginning with a hyphen (`-`). The text following the hyphen is the solution for that clue. There must be exactly six connections puzzles, exactly six sequences puzzles, exactly eight wall puzzles (four per wall, they will be grouped in the order that they are specified) and any number of vowels puzzles. The puzzle data follows the hyphened line.
 
-Connections and Seqeunces
+Connections and Sequences
 -------------------------
 
 Connections and sequences share the same format: a list of exactly four clues. The fourth clue in a sequences puzzle serves as the solution. There are two kinds of clues: text clues, which span a single line, and complex clues, which span two lines. In a complex clue, the second line is the text that shows when the solution is revealed.

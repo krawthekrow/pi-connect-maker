@@ -8,9 +8,9 @@
   "dependencies": {
     "fluent-ffmpeg": "^2.1.2",
     "request": "^2.88.2",
-    "sharp": "^0.24.1",
+    "sharp": "^0.26.1",
     "stream-to-array": "^2.3.0",
-    "ytdl-core": "^1.0.9"
+    "ytdl-core": "^3.2.2"
   },
   "repository": "git@github.com:krawthekrow/pi-connect-maker.git"
 }
