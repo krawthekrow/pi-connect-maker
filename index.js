@@ -122,10 +122,13 @@ function parseTextClue(line) {
 	return line.startsWith('`') ? line.slice(1) : line.trim();
 }
 
-async function parseMultimediaClue(line) {
+async function parseMultimediaClue(i, line) {
 	const isRemoteAudio =
 		line.startsWith('https://www.youtube.com/');
 	const isLocalAudio = line.startsWith('audio/');
+	function throwError(err) {
+		throw new Error(`Error at in.txt line ${i+1}: ${err}`);
+	}
 	if (isRemoteAudio || isLocalAudio) {
 		const parts = line.trim().split(' ');
 		const duration =
@@ -276,7 +279,7 @@ async function parseFile() {
 		if (stage == 'connections' || stage == 'sequences') {
 			if (substage == -1) {
 				subindex++;
-				const clue = await parseMultimediaClue(src[i]);
+				const clue = await parseMultimediaClue(i, src[i]);
 				gameData[stage][index].data.push(clue);
 				substage = ('text' in clue) ? -1 : 0;
 			}
@@ -293,7 +296,7 @@ async function parseFile() {
 		}
 		else if (stage == 'walls') {
 			subindex++;
-			const clue = await parseMultimediaClue(src[i]);
+			const clue = await parseMultimediaClue(i, src[i]);
 			if ('audio' in clue)
 				throwError(`audio not supported in walls`);
 			gameData.walls[Math.floor(index / 4)].groups[index % 4].data.push(
