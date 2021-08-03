@@ -7,10 +7,9 @@
   "license": "MIT",
   "dependencies": {
     "fluent-ffmpeg": "^2.1.2",
-    "request": "^2.88.2",
-    "sharp": "^0.27.1",
+    "sharp": "^0.28.3",
     "stream-to-array": "^2.3.0",
-    "ytdl-core": "^4.4.5"
+    "ytdl-core": "^4.9.0"
   },
   "repository": "git@github.com:krawthekrow/pi-connect-maker.git"
 }

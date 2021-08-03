@@ -4,8 +4,9 @@ const ytdl = require('ytdl-core');
 const ffmpeg = require('fluent-ffmpeg');
 const toArray = require('stream-to-array');
 const stream = require('stream');
-const request = require('request').defaults({encoding: null});
 const sharp = require('sharp');
+const https = require('https');
+const http = require('http');
 
 // For testing
 const WRITE_DIRECT = false;
@@ -35,19 +36,31 @@ function getImage(url) {
 			return;
 		}
 		console.log(`[image] downloading from ${url}`);
-		request.get(url, (err, resp, body) => {
-			if (err) {
-				reject(`failed to download image from ${url} with error "${err}"`);
-				return;
-			}
-			sharp(Buffer.from(body))
+		const resizeAndReturn = (buf, contentType) => {
+			sharp(buf)
 			.resize(256, 256, {
 				fit: 'inside'
 			}).toBuffer().then((data) => {
 				fs.writeFileSync(filepath,
-					'data:' + resp.headers['content-type'] +
+					'data:' + contentType +
 					';base64,' + data.toString('base64'));
 				returnFile();
+			}).catch(err => {
+				reject(err);
+			});
+		};
+		(url.startsWith('https') ? https : http).get(url, {
+			'headers': {
+				'User-Agent': 'pi-connect-maker/0.0 (https://github.com/krawthekrow/pi-connect-maker)'
+			}
+		}, resp => {
+			const data = [];
+			resp.on('data', (chunk) => {
+				data.push(chunk);
+			}).on('end', () => {
+				resizeAndReturn(Buffer.concat(data), resp.headers['content-type']);
+			}).on('error', (err) => {
+				reject(`failed to download image from ${url} with error "${err}"`);
 			});
 		});
 	});
@@ -67,6 +80,8 @@ function getLocalImage(url) {
 			fit: 'inside'
 		}).toBuffer().then((data) => {
 			resolve('data:image/png;base64,' + data.toString('base64'));
+		}).catch(err => {
+			reject(err);
 		});
 	});
 }
