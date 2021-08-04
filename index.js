@@ -103,7 +103,9 @@ function getAudio(url, start, duration) {
 			return;
 		}
 		console.log(`[audio] downloading from ${url}`);
-		new ffmpeg(ytdl(url))
+		new ffmpeg(ytdl(url, {
+			filter: 'audio'
+		}))
 		.setStartTime(start).setDuration(duration)
 		.on('end', () => {
 			returnFile();
