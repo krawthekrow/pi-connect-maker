@@ -139,12 +139,17 @@ function parseTextClue(line) {
 	return line.startsWith('`') ? line.slice(1) : line.trim();
 }
 
-async function parseMultimediaClue(i, line) {
+async function parseMultimediaClue(lineno, line) {
+	if (line.startsWith('`'))
+		return {
+			text: line.slice(1)
+		};
+
 	const isRemoteAudio =
 		line.startsWith('https://www.youtube.com/');
 	const isLocalAudio = line.startsWith('audio/');
 	function throwError(err) {
-		throw new Error(`Error at in.txt line ${i+1}: ${err}`);
+		throw new Error(`Error at in.txt line ${lineno+1}: ${err}`);
 	}
 	if (isRemoteAudio || isLocalAudio) {
 		const parts = line.trim().split(' ');
@@ -202,9 +207,9 @@ async function parseFile() {
 	let stage = 'start';
 	let index = -1, subindex = 3;
 	let substage = -1;
-	let i = 0;
+	let lineno = 0;
 	function throwError(err) {
-		throw new Error(`Error at in.txt line ${i+1}: ${err}`);
+		throw new Error(`Error at in.txt line ${lineno+1}: ${err}`);
 	}
 	function checkEndPuzzle() {
 		if (substage != -1)
@@ -212,13 +217,13 @@ async function parseFile() {
 		if (subindex != 3)
 			throwError(`incorrect number of clues in previous puzzle, expected 4, got ${subindex + 1}`);
 	}
-	for (; i < src.length; i++) {
-		if (src[i].startsWith('#'))
+	for (; lineno < src.length; lineno++) {
+		if (src[lineno].startsWith('#'))
 			continue;
-		if (src[i].trim() == '')
+		if (src[lineno].trim() == '')
 			continue;
-		if (src[i].startsWith('!')) {
-			const cmd = src[i].slice(1).trim();
+		if (src[lineno].startsWith('!')) {
+			const cmd = src[lineno].slice(1).trim();
 			checkEndPuzzle();
 			if (stage == 'start') {
 				if (cmd != 'connections')
@@ -254,8 +259,8 @@ async function parseFile() {
 		}
 		if (stage == 'start')
 			throwError(`file should start with "!connections" to denote start of connections section`);
-		if (src[i].startsWith('-')) {
-			const desc = src[i].slice(1).trim();
+		if (src[lineno].startsWith('-')) {
+			const desc = src[lineno].slice(1).trim();
 			checkEndPuzzle();
 			if (stage == 'connections' || stage == 'sequences')
 				gameData[stage].push({
@@ -296,24 +301,21 @@ async function parseFile() {
 		if (stage == 'connections' || stage == 'sequences') {
 			if (substage == -1) {
 				subindex++;
-				const clue = await parseMultimediaClue(i, src[i]);
+				const clue = await parseMultimediaClue(lineno, src[lineno]);
 				gameData[stage][index].data.push(clue);
 				substage = ('text' in clue) ? -1 : 0;
 			}
 			else {
-				if (src[i].startsWith('https://') ||
-						src[i].startsWith('http://') ||
-						src[i].startsWith('images/') ||
-						src[i].startsWith('audio/'))
+				const clue = await parseMultimediaClue(lineno, src[lineno]);
+				if (!('text' in clue))
 					throwError(`incomplete clue, did you forget to provide a solution?`);
-				gameData[stage][index].data[subindex].text =
-					parseTextClue(src[i]);
+				gameData[stage][index].data[subindex].text = clue.text;
 				substage = -1;
 			}
 		}
 		else if (stage == 'walls') {
 			subindex++;
-			const clue = await parseMultimediaClue(i, src[i]);
+			const clue = await parseMultimediaClue(lineno, src[lineno]);
 			if ('audio' in clue)
 				throwError(`audio not supported in walls`);
 			gameData.walls[Math.floor(index / 4)].groups[index % 4].data.push(
@@ -323,7 +325,7 @@ async function parseFile() {
 		else if (stage == 'vowels') {
 			subindex++;
 			gameData.vowels[index].data.push(
-				src[i]
+				src[lineno]
 			);
 		}
 		else

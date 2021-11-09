@@ -9,7 +9,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "sharp": "^0.28.3",
     "stream-to-array": "^2.3.0",
-    "ytdl-core": "^4.9.0"
+    "ytdl-core": "^4.10.1"
   },
   "repository": "git@github.com:krawthekrow/pi-connect-maker.git"
 }

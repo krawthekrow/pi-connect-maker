@@ -16,15 +16,13 @@ Auld Lang Syne
 https://www.youtube.com/watch?v=NpLtf_-XnRo 62
 Spring on the Moonlit River
 
-- Alliterations
-https://www.youtube.com/watch?v=GBp1Y-LoObs 31
-Guardians of the Galaxy
-https://www.youtube.com/watch?v=d9J91NDX_HI
-Final Fantasy (FF1 opening)
-https://www.youtube.com/watch?v=g1vw9ftAWSc
-Madoka Magica
-https://www.youtube.com/watch?v=dQw4w9WgXcQ
-Rick-roll
+## Example of using backtick to escape strings
+
+- Clues that would ordinarily get interpreted specially in pi-connect-maker
+`https://www.youtube.com/
+`http://image.com/
+`images/clue.png
+`audio/clue.mp3
 
 - Name collisions on Floor Pi
 tclin
@@ -68,14 +66,10 @@ cd
 4...5
 
 - Ubuntu version suffixes
-https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Bos_grunniens_at_Letdar_on_Annapurna_Circuit.jpg/1280px-Bos_grunniens_at_Letdar_on_Annapurna_Circuit.jpg
-(Yakkety) Yak
-https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Zapus_hudsonius.jpg/1200px-Zapus_hudsonius.jpg
-(Zesty) Zapus
-https://www.nationalgeographic.com/content/dam/animals/thumbs/rights-exempt/mammals/a/aardvark_thumb.ngsversion.1474903830105.adapt.1900.1.JPG
-(Artful) Aardvark
-http://web.mit.edu/graphicidentity/images/examples/tim-the-beaver-do-1.png
-(Bionic) Beaver
+Yak
+Zapus
+Aardvark
+Beaver
 
 ## The last clue for this puzzle was originally
 #
