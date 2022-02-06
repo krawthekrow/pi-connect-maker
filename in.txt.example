@@ -7,7 +7,7 @@
 # Upon reveal, the tile would say "Amazing Grace".
 
 - Songs using the pentatonic scale
-https://www.youtube.com/watch?v=CDdvReNKKuk 51
+https://www.youtube.com/watch?v=2tae3rpIvpg
 Amazing Grace
 https://www.youtube.com/watch?v=v8frEt6w4G8 8
 Swing Low, Sweet Chariot
@@ -15,32 +15,6 @@ https://www.youtube.com/watch?v=wPnhaGWBnys 11
 Auld Lang Syne
 https://www.youtube.com/watch?v=NpLtf_-XnRo 62
 Spring on the Moonlit River
-
-## Example of using backtick to escape strings
-
-- Clues that would ordinarily get interpreted specially in pi-connect-maker
-`https://www.youtube.com/
-`http://image.com/
-`images/clue.png
-`audio/clue.mp3
-
-- Name collisions on Floor Pi
-tclin
-dzguo
-yangk
-schin19
-
-- Lounges in MIT
-50-2xx
-8-3xx
-4-1xx
-36-1xx
-
-- Anagrams of Deltarune characters
-Earl, NC
-serial
-issue
-risk
 
 ## Example of a picture question
 # For example, the first clue downloads the image from
@@ -57,47 +31,51 @@ cat
 https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/OD_Compact_disc.svg/2000px-OD_Compact_disc.svg.png
 cd
 
+## Example of using backtick to escape strings
+
+- Clues that would ordinarily get interpreted specially in pi-connect-maker
+`https://www.youtube.com/
+`http://image.com/
+`images/clue.png
+`audio/clue.mp3
+
+- Shades of blue
+persian
+sky
+azure
+periwinkle
+
+- Abecederian words
+almost
+forty
+biopsy
+beefily
+
+- Web browsers
+edge
+chrome
+safari
+firefox
+
 !sequences
 
-- Chord progression in Pachelbel's Canon in D
-1...5
-6...3
-4...1
-4...5
+- String quartet
+cello
+viola
+violin
+violin
 
 - Ubuntu version suffixes
-Yak
-Zapus
-Aardvark
-Beaver
+yak
+zapus
+aardvark
+beaver
 
-## The last clue for this puzzle was originally
-#
-# images/first-east.png
-# First East
-#
-# which provides an example of a picture clue where the image is retrieved
-# from the local filesystem. This requires you to have an image called
-# "first-east.png" in the images directory in the project root. Since you
-# probably don't have this image on your computer, I removed the image URL.
-#
-# Now, this just provides an example of how you can mix and match
-# different kinds of clues.
-
-- Floors on the east parallel
-https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Brenneke_Slug-1.jpg/446px-Brenneke_Slug-1.jpg
-Slug(Fest)
-http://whisperingpines.fatcow.com/content/wp-content/uploads/2009/12/pettingzoo1.jpg
-(Third East) Travelling Animial Zoo
-https://lumiere-a.akamaihd.net/v1/images/open-uri20150422-20810-rh2s1r_7ed9f532.jpeg
-(Beauty and the) Beast
-First East
-
-- Last four days of creation
-Sun and moon
-Birds and fish
-Man and animals
-Rest
+- Chemical elements
+hydrogen
+helium
+lithium
+beryllium
 
 - Brightest stars as seen from the Earth
 Alpha Centauri
@@ -105,11 +83,17 @@ Canopus
 Sirius
 The Sun
 
-- Building numbers along MIT's north corrdidor
-(35, 37)
-(39, 38)
-(34, 36)
-(32)
+- Days of the week
+mon
+tues
+wednes
+thurs
+
+- Colors of the rainbow
+red
+orange
+yellow
+green
 
 !walls
 
@@ -159,50 +143,45 @@ pin
 cant
 chord
 
-- Prefixes of computer games recently played in the TVL
-hollow
-over
-super
-crypt
+- Words for numbers
+pair
+dozen
+score
+gross
 
 !vowels
 
 # The vowels are removed and the spaces inserted randomly at the point
-# when you upload the game file to the app. Unfortunately, there isn't a
-# way to choose your own spacing beforehand.
+# when you upload the game file to the app. This means that the clue
+# may look different with each run of the game.
+# 
+# Use "=" to provide a custom devowelization/respacing.
 
-- Revolutionary innovations in technology
-Facebook
-Amazon Echo
-Google Plus
-Juicero
+- Flowers
+Daisy
+Chrysanthemum
+Orchid
+=Y LLWR VR
+Yellow river
 
-- People related to Floor Pi
-Daniel Guo
-Aashish Welling
-Yannick Yao
-Dai Yang
+- Novels
+Gone with the Wind
+To Kill a Mockingbird
+Oliver Twist
+Ulysses
 
 - Orders
-Sammy, go to sleep!
+At ease
 The Illuminati
 General Gao's chicken
 Eleven
 
-- Floor Pi
-Ceiling e
-WHOOSH! Galactic Trendsetters NIAOOoo
-Only Connect
-Tea time
-
-## Example of using "=" to specify your own prompt
-
 - Cardinal directions in Chinese
 =X
 Xī
-=dng
+=DNG
 dōng
-=nn
+=NN
 nán
-=b
+=B
 běi
