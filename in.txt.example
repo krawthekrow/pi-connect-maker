@@ -194,3 +194,15 @@ Ceiling e
 WHOOSH! Galactic Trendsetters NIAOOoo
 Only Connect
 Tea time
+
+## Example of using "=" to specify your own prompt
+
+- Cardinal directions in Chinese
+=X
+Xī
+=dng
+dōng
+=nn
+nán
+=b
+běi

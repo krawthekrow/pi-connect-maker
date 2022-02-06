@@ -57,7 +57,11 @@ Walls
 
 The first four puzzles in the walls section will be used for one wall, and the next four puzzles will be used for the other. Each puzzle contains exactly four lines for the four clues corresponding to that category. In total, this gives four puzzles with four clues for each wall, and you get the sixteen words.
 
+Wall clues support the same special prefixes (images, backticks, etc.) as connection and sequence clues.
+
 Vowels
 ------
 
-For vowels, the text after the hyphen will be the category that is shown on screen. Each puzzle contains exactly four lines of text (vowels included), corresponding to the four questions in that category. The text in the line will be shown as-is when the solution is revealed.
+For vowels, the text after the hyphen will be the category that is shown on screen. Each puzzle contains exactly four lines of text (vowels included), corresponding to the four questions in that category. The text in the line will be shown as-is when the solution is revealed. Clues are automatically devowelized and respaced in-game, with "Y" considered a vowel.
+
+You can specify a custom devowelization for a clue by preceding it with a line containing an equals sign (`=`) followed by the devowelization. The provided devowelization will be used verbatim, without respacing.

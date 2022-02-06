@@ -323,10 +323,25 @@ async function parseFile() {
 			);
 		}
 		else if (stage == 'vowels') {
-			subindex++;
-			gameData.vowels[index].data.push(
-				src[lineno]
-			);
+			if (substage == -1) {
+				subindex++;
+				if (src[lineno].startsWith('=')) {
+					gameData.vowels[index].data.push({
+						clue: parseTextClue(src[lineno].slice(1))
+					});
+					substage = 0;
+				}
+				else {
+					gameData.vowels[index].data.push({
+						solution: parseTextClue(src[lineno])
+					});
+				}
+			}
+			else {
+				gameData.vowels[index].data[subindex].solution =
+					parseTextClue(src[lineno]);
+				substage = -1;
+			}
 		}
 		else
 			throwError(`unknown stage ${stage}`);
