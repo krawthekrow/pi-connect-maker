@@ -1,12 +1,29 @@
 const fs = require('fs');
 const path = require('path');
-const ytdl = require('ytdl-core');
-const ffmpeg = require('fluent-ffmpeg');
-const toArray = require('stream-to-array');
-const stream = require('stream');
-const sharp = require('sharp');
 const https = require('https');
 const http = require('http');
+
+let ytdl = null;
+let ffmpeg = null;
+let sharp = null;
+function lazyLoadYtdl() {
+	if (ytdl == null) {
+		ytdl = require('ytdl-core');
+	}
+	return ytdl;
+}
+function lazyLoadFfmpeg() {
+	if (ffmpeg == null) {
+		ffmpeg = require('fluent-ffmpeg');
+	}
+	return ffmpeg;
+}
+function lazyLoadSharp() {
+	if (sharp == null) {
+		sharp = require('sharp');
+	}
+	return sharp;
+}
 
 // For testing
 const WRITE_DIRECT = false;
@@ -37,7 +54,7 @@ function getImage(url) {
 		}
 		console.log(`[image] downloading from ${url}`);
 		const resizeAndReturn = (buf, contentType) => {
-			sharp(buf)
+			lazyLoadSharp()(buf)
 			.resize(256, 256, {
 				fit: 'inside'
 			}).toBuffer().then((data) => {
@@ -75,7 +92,7 @@ function getLocalImage(url) {
 			reject(`failed to read image from ${url} with error "${err}"`);
 			return;
 		}
-		sharp(Buffer.from(data))
+		lazyLoadSharp()(Buffer.from(data))
 		.resize(256, 256, {
 			fit: 'inside'
 		}).toBuffer().then((data) => {
@@ -103,7 +120,7 @@ function getAudio(url, start, duration) {
 			return;
 		}
 		console.log(`[audio] downloading from ${url}`);
-		new ffmpeg(ytdl(url, {
+		new lazyLoadFfmpeg()(lazyLoadYtdl()(url, {
 			filter: 'audio'
 		}))
 		.setStartTime(start).setDuration(duration)
@@ -126,7 +143,7 @@ function getLocalAudio(url, start, duration) {
 			resolve(res);
 		}
 		console.log(`[audio] processing ${url}`);
-		new ffmpeg(url)
+		new lazyLoadFfmpeg()(url)
 		.setStartTime(start).setDuration(duration)
 		.on('end', () => {
 			returnFile();
