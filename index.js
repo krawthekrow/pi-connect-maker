@@ -214,6 +214,11 @@ async function parseMultimediaClue(lineno, line) {
 			image: url
 		};
 	}
+	else if (line.startsWith('__html:')) {
+		return {
+			html: line.slice('__html:'.length).trim(),
+		};
+	}
 	else {
 		return {
 			text: parseTextClue(line)
@@ -317,16 +322,23 @@ async function parseFile() {
 		}
 		if (index == -1)
 			throwError(`puzzle should start with a solution or category (line beginning with a dash)`);
+
+		// once a clue has a text/html element, it is considered
+		// complete and we can proceed to the next clue
+		const isClueComplete = (clue) => {
+			return 'text' in clue || 'html' in clue;
+		};
+
 		if (stage == 'connections' || stage == 'sequences') {
 			if (substage == -1) {
 				subindex++;
 				const clue = await parseMultimediaClue(lineno, src[lineno]);
 				gameData[stage][index].data.push(clue);
-				substage = ('text' in clue) ? -1 : 0;
+				substage = isClueComplete(clue) ? -1 : 0;
 			}
 			else {
 				const clue = await parseMultimediaClue(lineno, src[lineno]);
-				if (!('text' in clue))
+				if (!isClueComplete(clue))
 					throwError(`incomplete clue, did you forget to provide a solution?`);
 				gameData[stage][index].data[subindex].text = clue.text;
 				substage = -1;

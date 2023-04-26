@@ -39,11 +39,13 @@ cd
 `images/clue.png
 `audio/clue.mp3
 
-- Shades of blue
-persian
-sky
-azure
-periwinkle
+## Example of using raw HTML
+
+- HTML decorations
+__html: <b>bold</b>
+__html: <i>italics</i>
+__html: <u>underline</u>
+__html: <s>strikethrough</s>
 
 - Abecederian words
 almost
@@ -99,29 +101,33 @@ green
 
 ## WALL 1
 
-- Swap the second and third letters to get another word
-silver
-tarp
-crooner
-stain
-
-- ___age
-bronze
-percent
-old
-ramp
-
 - End of lines of the poem "Roses are Red"
 red
 blue
 sweet
 you
 
-- Quantum ___
-leap
-foam
-dot
-teleportation
+# Images, raw text and HTML are also supported in walls.
+# However, overlaying text over an image when the answer is revealed
+# is not supported.
+
+- Commands that you type into a terminal
+https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
+https://media.kare11.com/assets/KARE/images/537657503/537657503_750x422.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
+https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/OD_Compact_disc.svg/2000px-OD_Compact_disc.svg.png
+
+- Clues that would ordinarily get interpreted specially in pi-connect-maker
+`https://www.youtube.com/
+`http://image.com/
+`images/clue.png
+`audio/clue.mp3
+
+- HTML decorations
+__html: <b>bold</b>
+__html: <i>italics</i>
+__html: <u>underline</u>
+__html: <s>strikethrough</s>
 
 ## WALL 2
 

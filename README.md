@@ -47,6 +47,7 @@ What a line starts with determines the kind of clue it is.
 - If it starts with `audio/` (for example, `audio/clue.mp3`), then it is a music clue. The audio will be taken from your own computer, in the `audio` folder (you'll have to create one yourself with `mkdir audio` in the same directory as `index.js`). Any common format should be supported, but when in doubt use MP3.
 - If it starts with `https://` or `http://` and isn't a music clue, then it is a picture clue, and the image will be downloaded from the URL.
 - If it starts with `images/` (for example, `images/clue.png`), then it is a picture clue. The image will be taken from your own computer, in the `images` folder (you'll have to create one yourself with `mkdir images` in the same directory as `index.js`). It must be a PNG because I've had no reason to support multiple formats.
+- If it starts with `__html:` (for example, `__html: <b>clue</b>`), then it is a raw HTML clue. The HTML will be inserted directly into the clue tile. Note that text clues are normally presented inside an `<h2>` tag, which is omitted for HTML clues. Include your own `<h2>` tags or set the font size with a `style` attribute for clues to display at the correct size.
 - Otherwise, it is a text clue, and the content of the line will be the clue itself.
 - Backtick escapes -- if a line starts with `` ` ``, it will be treated as a raw string containing everything after the backtick, including whitespace.
 
@@ -57,7 +58,7 @@ Walls
 
 The first four puzzles in the walls section will be used for one wall, and the next four puzzles will be used for the other. Each puzzle contains exactly four lines for the four clues corresponding to that category. In total, this gives four puzzles with four clues for each wall, and you get the sixteen words.
 
-Wall clues support the same special prefixes (images, backticks, etc.) as connection and sequence clues.
+Wall clues support the same special prefixes (images, raw text, HTML, etc.) as connection and sequence clues.
 
 Vowels
 ------
