@@ -127,6 +127,9 @@ function getAudio(url, start, duration) {
 			},
 		}))
 		.setStartTime(start).setDuration(duration)
+		.on('error', (err) => {
+			reject(err);
+		})
 		.on('end', () => {
 			returnFile();
 		})
@@ -150,6 +153,9 @@ function getLocalAudio(url, start, duration) {
 		.setStartTime(start).setDuration(duration)
 		.on('end', () => {
 			returnFile();
+		})
+		.on('error', (err) => {
+			reject(err);
 		})
 		.saveToFile(filepath);
 	});
