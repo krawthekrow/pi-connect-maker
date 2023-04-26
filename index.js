@@ -121,7 +121,9 @@ function getAudio(url, start, duration) {
 		}
 		console.log(`[audio] downloading from ${url}`);
 		new lazyLoadFfmpeg()(lazyLoadYtdl()(url, {
-			filter: 'audio'
+			filter: (format) => {
+				return format.hasAudio;
+			},
 		}))
 		.setStartTime(start).setDuration(duration)
 		.on('end', () => {
