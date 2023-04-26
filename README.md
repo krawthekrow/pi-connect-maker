@@ -66,3 +66,10 @@ Vowels
 For vowels, the text after the hyphen will be the category that is shown on screen. Each puzzle contains exactly four lines of text (vowels included), corresponding to the four questions in that category. The text in the line will be shown as-is when the solution is revealed. Clues are automatically devowelized and respaced in-game, with "Y" considered a vowel.
 
 You can specify a custom devowelization for a clue by preceding it with a line containing an equals sign (`=`) followed by the devowelization. The provided devowelization will be used verbatim, without respacing.
+
+Customization
+-------------
+
+Special commands can be used to customize the look and feel of the game.
+
+- `!wall_life_token <token>`: `token` will replace the "life tokens" that are displayed during a walls round when two out of four clues have been solved. It supports the same special prefixes (images, raw text, HTML, etc.) used in connections/sequences clues. For example, `!wall_life_token __html: <b>O</b>` will display a bold `O`.

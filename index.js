@@ -29,6 +29,7 @@ function lazyLoadSharp() {
 const WRITE_DIRECT = false;
 
 const gameData = {
+	meta: {},
 	connections: [],
 	sequences: [],
 	walls: [],
@@ -248,6 +249,24 @@ async function parseFile() {
 			continue;
 		if (src[lineno].startsWith('!')) {
 			const cmd = src[lineno].slice(1).trim();
+			const spaceIndex = cmd.indexOf(' ');
+			const opcode = (spaceIndex == -1) ? cmd : cmd.slice(0, spaceIndex);
+			const params = (spaceIndex == -1) ? '' : cmd.slice(spaceIndex + 1);
+
+			// special opcodes
+			if (opcode == 'wall_life_token') {
+				if (stage != 'start') {
+					throwError(`customization commands should be placed at the beginning of the file`);
+				}
+				const token = await parseMultimediaClue(lineno, params);
+				if ('audio' in token)
+					throwError(`audio can't be used as a life token`);
+				if ('wallLifeToken' in gameData.meta)
+					throwError(`custom wall life token already defined`);
+				gameData.meta.wallLifeToken = token;
+				continue;
+			}
+
 			checkEndPuzzle();
 			if (stage == 'start') {
 				if (cmd != 'connections')
