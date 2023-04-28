@@ -4,6 +4,13 @@
 # clues in a wall have been solved.
 !wall_life_token ꩜
 
+# By default, the questions in the connections, sequences and walls
+# rounds are shuffled. These commands disable the shuffling in each
+# round separately. They do not take any parameters.
+!disable_shuffle_connections
+!disable_shuffle_sequences
+!disable_shuffle_walls
+
 
 ## Start of game specification
 

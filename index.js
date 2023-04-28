@@ -260,10 +260,16 @@ async function parseFile() {
 			const params = (spaceIndex == -1) ? '' : cmd.slice(spaceIndex + 1);
 
 			// special opcodes
-			if (opcode == 'wall_life_token') {
-				if (stage != 'start') {
+			const checkAtStart = () => {
+				if (stage != 'start')
 					throwError(`customization commands should be placed at the beginning of the file`);
-				}
+			};
+			const checkNoParams = () => {
+				if (params != '')
+					throwError(`no params expected after ${opcode}`);
+			};
+			if (opcode == 'wall_life_token') {
+				checkAtStart();
 				const token = await parseMultimediaClue(lineno, params);
 				if ('audio' in token)
 					throwError(`audio can't be used as a life token`);
@@ -271,12 +277,27 @@ async function parseFile() {
 					throwError(`custom wall life token already defined`);
 				gameData.meta.wallLifeToken = token;
 				continue;
+			} else if (opcode == 'disable_shuffle_connections') {
+				checkAtStart();
+				checkNoParams();
+				gameData.meta.disableShuffleConnections = true;
+				continue;
+			} else if (opcode == 'disable_shuffle_sequences') {
+				checkAtStart();
+				checkNoParams();
+				gameData.meta.disableShuffleSequences = true;
+				continue;
+			} else if (opcode == 'disable_shuffle_walls') {
+				checkAtStart();
+				checkNoParams();
+				gameData.meta.disableShuffleWalls = true;
+				continue;
 			}
 
 			checkEndPuzzle();
 			if (stage == 'start') {
 				if (cmd != 'connections')
-					throwError(`connections stage should come first`);
+					throwError(`expected either a customization command or !connections`);
 				if (index != -1)
 					throwError(`wrong puzzle index`);
 				stage = 'connections';
