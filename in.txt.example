@@ -1,4 +1,5 @@
-## Example customization commands
+## Example customization commands. These may be omitted to use the
+## default settings.
 
 # This customizes the "life tokens" displayed when two of the four
 # clues in a wall have been solved.
@@ -10,6 +11,13 @@
 !disable_shuffle_connections
 !disable_shuffle_sequences
 !disable_shuffle_walls
+
+# Set the time limit for each round type. Setting a time limit to 0
+# disables the time limit altogether.
+!connections_time_limit 40
+!sequences_time_limit 40
+!walls_time_limit 150
+!vowels_time_limit 90
 
 
 ## Start of game specification

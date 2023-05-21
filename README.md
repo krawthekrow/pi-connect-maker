@@ -70,7 +70,8 @@ You can specify a custom devowelization for a clue by preceding it with a line c
 Customization
 -------------
 
-Special commands can be used to customize the look and feel of the game.
+Special commands can optionally be used to customize the look and feel of the game.
 
 - `!disable_shuffle_connections`, `!disable_shuffle_sequences`, `!disable_shuffle_walls`: By default, the questions in the connections, sequences and walls rounds are shuffled. These commands disable the shuffling in their respective rounds. Questions will instead be presented in row-major order.
+- `!connections_time_limit <x>`, `!sequences_time_limit <x>`, `!walls_time_limit <x>`, `vowels_time_limit <x>`: Sets the time limit for its respective round type to `x` seconds. Setting `x` to `0` disables the time limit for the round altogether.
 - `!wall_life_token <token>`: `token` will replace the "life tokens" that are displayed during a walls round when two out of four clues have been solved. It supports the same special prefixes (images, raw text, HTML, etc.) used in connections/sequences clues. For example, `!wall_life_token __html: <b>O</b>` will display a bold `O`.

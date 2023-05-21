@@ -292,6 +292,34 @@ async function parseFile() {
 				checkNoParams();
 				gameData.meta.disableShuffleWalls = true;
 				continue;
+			} else if (opcode == 'connections_time_limit') {
+				checkAtStart();
+				gameData.meta.connectionsTimeLimit = Number(params) * 1000;
+				if (isNaN(gameData.meta.connectionsTimeLimit)) {
+					throw new Error("unable to parse connections time limit");
+				}
+				continue;
+			} else if (opcode == 'sequences_time_limit') {
+				checkAtStart();
+				gameData.meta.sequencesTimeLimit = Number(params) * 1000;
+				if (isNaN(gameData.meta.sequencesTimeLimit)) {
+					throw new Error("unable to parse connections time limit");
+				}
+				continue;
+			} else if (opcode == 'walls_time_limit') {
+				checkAtStart();
+				gameData.meta.wallsTimeLimit = Number(params) * 1000;
+				if (isNaN(gameData.meta.wallsTimeLimit)) {
+					throw new Error("unable to parse connections time limit");
+				}
+				continue;
+			} else if (opcode == 'vowels_time_limit') {
+				checkAtStart();
+				gameData.meta.vowelsTimeLimit = Number(params) * 1000;
+				if (isNaN(gameData.meta.vowelsTimeLimit)) {
+					throw new Error("unable to parse connections time limit");
+				}
+				continue;
 			}
 
 			checkEndPuzzle();
