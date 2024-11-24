@@ -320,6 +320,20 @@ async function parseFile() {
 					throw new Error("unable to parse connections time limit");
 				}
 				continue;
+			} else if (opcode == 'connections_count') {
+				checkAtStart();
+				gameData.meta.connectionsCount = Number(params);
+				if (isNaN(gameData.meta.connectionsCount)) {
+					throw new Error("unable to parse connections count");
+				}
+				continue;
+			} else if (opcode == 'sequences_count') {
+				checkAtStart();
+				gameData.meta.sequencesCount = Number(params);
+				if (isNaN(gameData.meta.sequencesCount)) {
+					throw new Error("unable to parse sequences count");
+				}
+				continue;
 			}
 
 			checkEndPuzzle();
@@ -332,14 +346,16 @@ async function parseFile() {
 			} else if (stage == 'connections') {
 				if (cmd != 'sequences')
 					throwError(`connections stage should be followed by sequences`);
-				if (index != 5)
-					throwError(`too few puzzles in connections stage, expected 6, got ${index+1}`);
+				let expectedPuzzles = (gameData.meta.connectionsCount != undefined ? gameData.meta.connectionsCount : 6);
+				if (index != expectedPuzzles - 1)
+					throwError(`too few puzzles in connections stage, expected ${expectedPuzzles}, got ${index+1}`);
 				stage = 'sequences';
 			} else if (stage == 'sequences') {
 				if (cmd != 'walls')
 					throwError(`sequences stage should be followed by walls`);
-				if (index != 5)
-					throwError(`too few puzzles in sequences stage, expected 6, got ${index+1}`);
+				let expectedPuzzles = (gameData.meta.sequencesCount != undefined ? gameData.meta.sequencesCount : 6);
+				if (index != expectedPuzzles - 1)
+					throwError(`too few puzzles in sequences stage, expected ${expectedPuzzles}, got ${index+1}`);
 				stage = 'walls';
 			} else if (stage == 'walls') {
 				if (cmd != 'vowels')
@@ -387,9 +403,17 @@ async function parseFile() {
 				throwError(`unexpected puzzle at stage ${stage}, subindex ${subindex}, substage ${substage}`);
 			subindex = -1;
 			index++;
-			if ((stage == 'connections' || stage == 'sequences')
-					&& index >= 6)
-				throwError(`too many puzzles in ${stage} stage, expected 6`);
+			if (stage == 'connections' || stage == 'sequences') {
+				let expectedPuzzles = 6;
+				if (stage == 'connections' && gameData.meta.connectionsCount != undefined) {
+					expectedPuzzles = gameData.meta.connectionsCount;
+				} else if (stage == 'sequences' && gameData.meta.sequencesCount != undefined) {
+					expectedPuzzles = gameData.meta.sequencesCount;
+				}
+				if (index >= expectedPuzzles) {
+					throwError(`too many puzzles in ${stage} stage, expected ${expectedPuzzles}`);
+				}
+			}
 			if (stage == 'walls' && index >= 8)
 				throwError(`too many groups in walls stage, expected 8`);
 			continue;
