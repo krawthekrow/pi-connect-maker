@@ -8,7 +8,7 @@ let ffmpeg = null;
 let sharp = null;
 function lazyLoadYtdl() {
 	if (ytdl == null) {
-		ytdl = require('ytdl-core');
+		ytdl = require('@distube/ytdl-core');
 	}
 	return ytdl;
 }

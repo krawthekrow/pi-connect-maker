@@ -6,9 +6,9 @@
   "author": "krawthekrow",
   "license": "MIT",
   "dependencies": {
+    "@distube/ytdl-core": "^4.15.1",
     "fluent-ffmpeg": "^2.1.2",
-    "sharp": "^0.32.0",
-    "ytdl-core": "^4.10.0"
+    "sharp": "^0.32.0"
   },
   "repository": "git@github.com:krawthekrow/pi-connect-maker.git"
 }
