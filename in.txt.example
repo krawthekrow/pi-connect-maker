@@ -29,31 +29,36 @@
 # rounds last for 40 seconds) of music from
 # https://www.youtube.com/watch?v=CDdvReNKKuk , starting 51 seconds in.
 # Upon reveal, the tile would say "Amazing Grace".
+#
+# This is likely not to work out of the box. See the disclaimer in the
+# README.
 
-- Songs using the pentatonic scale
-https://www.youtube.com/watch?v=2tae3rpIvpg
-Amazing Grace
-https://www.youtube.com/watch?v=v8frEt6w4G8 8
-Swing Low, Sweet Chariot
-https://www.youtube.com/watch?v=wPnhaGWBnys 11
-Auld Lang Syne
-https://www.youtube.com/watch?v=NpLtf_-XnRo 62
-Spring on the Moonlit River
+# - Songs using the pentatonic scale
+# https://www.youtube.com/watch?v=2tae3rpIvpg
+# Amazing Grace
+# https://www.youtube.com/watch?v=v8frEt6w4G8 8
+# Swing Low, Sweet Chariot
+# https://www.youtube.com/watch?v=wPnhaGWBnys 11
+# Auld Lang Syne
+# https://www.youtube.com/watch?v=NpLtf_-XnRo 62
+# Spring on the Moonlit River
+
 
 ## Example of a picture question
 # For example, the first clue downloads the image from
 # https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
 # Upon reveal, the tile would say "tar".
 
-- Commands that you type into a terminal
-https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
-tar
-https://media.kare11.com/assets/KARE/images/537657503/537657503_750x422.jpg
-dig
-https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
-cat
-https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/OD_Compact_disc.svg/2000px-OD_Compact_disc.svg.png
-cd
+# - Commands that you type into a terminal
+# https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
+# tar
+# https://media.kare11.com/assets/KARE/images/537657503/537657503_750x422.jpg
+# dig
+# https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
+# cat
+# https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/OD_Compact_disc.svg/2000px-OD_Compact_disc.svg.png
+# cd
+
 
 ## Example of using backtick to escape strings
 
@@ -82,6 +87,18 @@ edge
 chrome
 safari
 firefox
+
+- Divine beasts in Breath of the Wild
+Vah Ruta
+Vah Rudania
+Vah Medoh
+Vah Naboris
+
+- Cardinal directions
+north
+south
+east
+west
 
 !sequences
 
@@ -131,15 +148,21 @@ blue
 sweet
 you
 
+- Cardinal directions
+north
+south
+east
+west
+
 # Images, raw text and HTML are also supported in walls.
 # However, overlaying text over an image when the answer is revealed
 # is not supported.
 
-- Commands that you type into a terminal
-https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
-https://media.kare11.com/assets/KARE/images/537657503/537657503_750x422.jpg
-https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
-https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/OD_Compact_disc.svg/2000px-OD_Compact_disc.svg.png
+# - Commands that you type into a terminal
+# https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/USA_tar_bubble_la_brea_CA.jpg/284px-USA_tar_bubble_la_brea_CA.jpg
+# https://media.kare11.com/assets/KARE/images/537657503/537657503_750x422.jpg
+# https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/1200px-Cat03.jpg
+# https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/OD_Compact_disc.svg/2000px-OD_Compact_disc.svg.png
 
 - Clues that would ordinarily get interpreted specially in pi-connect-maker
 `https://www.youtube.com/
